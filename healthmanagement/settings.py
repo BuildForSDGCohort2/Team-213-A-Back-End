@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Project Apps
+    'accounts.apps.AccountsConfig',
 
     # 3rd Party Apps
+    'widget_tweaks',
 
 ]
 
