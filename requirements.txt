@@ -1,6 +1,8 @@
 asgiref==3.2.10
+autopep8==1.5.4
 Django==2.2.15
 django-widget-tweaks==1.4.8
 python-decouple==3.3
 pytz==2020.1
+social-auth-app-django==4.0.0
 sqlparse==0.3.1
