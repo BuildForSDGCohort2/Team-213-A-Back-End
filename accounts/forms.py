@@ -122,12 +122,16 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        exclude = ['user']
+        exclude = ['user', 'avatar']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date_of_birth'].help_text = 'YYYY-MM-DD'
 
     def clean(self):
-        age = self.cleaned_data.get('age')
+        id_number = self.cleaned_data.get('id_number')
 
-        if age < 1 or age > 125:
+        if len(str(id_number)) != 8:
             raise forms.ValidationError(
-                'Please enter the age a person who is actually alive! (1-124)')
+                'Please enter valid Identification Number!')
         return self.cleaned_data

@@ -56,10 +56,16 @@ def logout_view(request):
 
 @login_required(login_url='/login/')
 def profile(request):
+    user = User.objects.get(username=request.user.username)
+    return render(request, 'accounts/profile.html', {'user': user})
+
+
+@login_required(login_url='/login/')
+def edit_profile(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
-        profile_form = UserProfileForm(
-            request.POST, instance=request.user.userprofile)
+        profile_form = UserProfileForm(request.POST,
+                                       instance=request.user.userprofile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -68,4 +74,8 @@ def profile(request):
     else:
         user_form = UserForm(instance=request.user)
         profile_form = UserProfileForm(instance=request.user.userprofile)
-    return render(request, 'accounts/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form
+    }
+    return render(request, 'accounts/edit_profile.html', context)

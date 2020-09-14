@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% load static %}
 
-{% block title %}Profile{% endblock title %}
+{% block title %} {{user.userprofile}} - Profile {% endblock title %}
 
 {% block content %}
 
@@ -11,121 +12,61 @@
 </div>
 {% endfor %}
 
-<div class="col-lg-6 mx-auto">
-    <h3 class="text-center pt-4">Profile</h3>
-    <form class="form-group" action="{% url 'accounts:profile' %}" method="POST" novalidate>
-        {% csrf_token %}
-        {% for hidden_field in user_form.hidden_fields %}
-            {{ hidden_field }}
-        {% endfor %}
-
-        <!-- User form errors -->
-        {% if user_form.non_field_errors %}
-        <div class="alert alert-danger" role="alert">
-            {% for error in user_form.non_field_errors %}
-                {{ error }}
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        <!-- Profile form errors -->
-        {% if profile_form.non_field_errors %}
-        <div class="alert alert-danger" role="alert">
-            {% for error in profile_form.non_field_errors %}
-                {{ error }}
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        <!-- Forms -->
-        <div class="form-group">
-            {% if user_form.is_bound %}
-                {% if user_form.username.errors %}
-                    {% render_field user_form.username|attr:"readonly:readonly" class="form-control is-invalid" %}
-                    <div class="invalid-feedback">
-                        {{ user_form.username.errors }}
+<div class="col-lg-8 mx-auto">
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    {% if user.userprofile.avatar %}
+                    <img src="{{user.userprofile.avatar.url}}" class="rounded-circle"
+                        alt="Profile photo of {{user.userprofile}}" width="80" height="80"
+                        style="border: 1px solid #007bff;">
+                    {% else %}
+                    <img src="{% static 'images/default_avatar.svg' %}" class="rounded-circle" alt="default avatar"
+                        width="80" height="80" style="border: 1px solid #007bff;">
+                    {% endif %}
+                </div>
+                <div class="col-sm-6  pt-3">
+                    <h5 class="card-title"> {{user.userprofile}} </h5>
+                    <p>{{user.email}}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <b>Phone Number</b>
+                        <p>{{user.username}}</p>
                     </div>
-                {% else %}
-                    {% render_field user_form.username|attr:"readonly:readonly" class="form-control is-valid" %}
-                {% endif %}
-            {% else %}
-                {% render_field user_form.username|attr:"readonly:readonly" class="form-control" %}
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{user_form.first_name.label_tag|title}}
-            {% if user_form.is_bound %}
-                {% if user_form.first_name.errors %}
-                    {% render_field user_form.first_name class="form-control is-invalid" %}
-                    <div class="invalid-feedback">
-                        {{ user_form.first_name.errors }}
+                    <div>
+                        <b>ID Number</b>
+                        <p>{{user.userprofile.id_number}}</p>
                     </div>
-                {% else %}
-                    {% render_field user_form.first_name class="form-control is-valid" %}
-                {% endif %}
-            {% else %}
-                {% render_field user_form.first_name class="form-control" %}
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{user_form.last_name.label_tag|title}}
-            {% if user_form.is_bound %}
-                {% if user_form.last_name.errors %}
-                    {% render_field user_form.last_name class="form-control is-invalid" %}
-                    <div class="invalid-feedback">
-                        {{ user_form.last_name.errors }}
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        <b>Date of Birth</b>
+                        <p>{{user.userprofile.date_of_birth}}</p>
                     </div>
-                {% else %}
-                    {% render_field user_form.last_name class="form-control is-valid" %}
-                {% endif %}
-            {% else %}
-                {% render_field user_form.last_name class="form-control" %}
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{user_form.email.label_tag|title}}
-            {% if user_form.is_bound %}
-                {% if user_form.email.errors %}
-                    {% render_field user_form.email class="form-control is-invalid" %}
-                    <div class="invalid-feedback">
-                        {{ user_form.email.errors }}
+                    <div>
+                        <b>Gender</b>
+                        <p>{{user.userprofile.gender}}</p>
                     </div>
-                {% else %}
-                    {% render_field user_form.email class="form-control is-valid" %}
-                {% endif %}
-            {% else %}
-                {% render_field user_form.email class="form-control" %}
-            {% endif %}
-        </div>
-
-        {% for field in profile_form.visible_fields %}
-        <div class="form-group">
-            {{field.label_tag|title}}
-            {% if profile_form.is_bound %}
-                {% if field.errors %}
-                    {% render_field field class="form-control is-invalid" %}
-                    {% for error in field.errors %}
-                    <div class="invalid-feedback">
-                        {{ error }}
+                    <div>
+                        <b>Marital Status</b>
+                        <p>{{user.userprofile.marital_status}}</p>
                     </div>
-                    {% endfor %}
-                {% else %}
-                    {% render_field field class="form-control is-valid" %}
-                {% endif %}
-            {% else %}
-                {% render_field field class="form-control" %}
-            {% endif %}
-            {% if field.help_text %}
-                <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
+                    <div>
+                        <b>Religion</b>
+                        <p>{{user.userprofile.religion}}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        {% endfor %}
-
-        <button type="submit" class="btn btn-outline-primary mb-4 float-right">Update</button>
-    </form>
+    </div>
+    <a href="{% url 'accounts:edit_profile' %}" class="float-right pt-4">
+        <button class="btn btn-sm btn-outline-primary">Edit Profile</button>
+    </a>
 </div>
 
 {% endblock content %}
