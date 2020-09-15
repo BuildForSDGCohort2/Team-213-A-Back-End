@@ -16,7 +16,6 @@ from decouple import config, Csv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -43,13 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'events',
 
-    # Project Apps
-    'accounts.apps.AccountsConfig',
-
-    # 3rd Party Apps
-    'social_django',
-    'widget_tweaks',
+   
 
 ]
 
@@ -70,7 +65,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'events/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -89,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'healthmanagement.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -99,7 +93,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -130,7 +123,7 @@ AUTHENTICATION_BACKENDS = (
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = config('TIME_ZONE')
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -138,14 +131,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "events/static"),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -154,12 +146,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
-LOGIN_URL = 'accounts:login'
-
-LOGOUT_URL = 'accounts:logout'
-
-LOGIN_REDIRECT_URL = 'accounts:profile'
-
-SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')
-
-SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')

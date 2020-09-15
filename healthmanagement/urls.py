@@ -19,7 +19,6 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('oauth/', include('social_django.urls'), name='social_auth'),
-    path('', include('accounts.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('', include(('events.urls', 'events'), namespace='calendar')),
+                  path('admin/', admin.site.urls),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
