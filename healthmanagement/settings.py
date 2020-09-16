@@ -42,10 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'events',
 
-   
+    # Project Apps
+    'accounts.apps.AccountsConfig',
+    'chat.apps.ChatConfig',
+    'events.apps.EventsConfig',
+    'channels',
 
+    # 3rd Party Apps
+    'social_django',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +89,18 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'healthmanagement.wsgi.application'
+ASGI_APPLICATION = 'healthmanagement.routing.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -123,7 +141,7 @@ AUTHENTICATION_BACKENDS = (
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = ('TIME_ZONE')
 
 USE_I18N = True
 
