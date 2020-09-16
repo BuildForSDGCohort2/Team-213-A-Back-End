@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'chat',
+    'channels',
 
     # Project Apps
 
@@ -81,6 +83,18 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'healthmanagement.wsgi.application'
+ASGI_APPLICATION = 'healthmanagement.routing.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
 
 
 # Database
@@ -118,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = config('TIME_ZONE')
+TIME_ZONE = ('UTC')
 
 USE_I18N = True
 
